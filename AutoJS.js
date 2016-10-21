@@ -3,10 +3,12 @@ var path = require('path');
 var cheerio = require("cheerio");
 var walk = require('./walk.js');
 var fs=require("fs");
-var beautify = require('js-beautify').js_beautify
+var beautify = require('js-beautify').html;
 var Entities = require('html-entities').XmlEntities;
 entities = new Entities();
+//var pathroot='E:\\development\\workspace\\exchange\\exchange-web\\src\\main\\webapp\\tradeDetail.html'//arguments[0];
 var pathroot=arguments[0];
+//var debug=false;//arguments[1]=='debug';
 var debug=arguments[1]=='debug';
 var pixfix=/.html$/
 var pixfix1=/.htm$/
@@ -58,7 +60,13 @@ if(p.match(pixfix)&&p.match(folderKey)){
 						if (!fs.existsSync(minPath)) {
 							fs.mkdirSync(minPath)
 						}
-						minPath += htmlName + "." + hashCode(p) + ".min.js"
+						var parr=p.split(/[\\/]/)
+						var hash=""
+						for(var n=parr.length-1;n>=0&&i>parr.length-4;n--){
+
+							hash+=parr[n]
+						}
+						minPath += htmlName + "." + hashCode(hash) + ".min.js"
 					}
 					if (jsp.match(/resources.minjs/)) {
 						minhtmlPath = jsp.replace(/js$/, "html")
@@ -99,28 +107,26 @@ if(p.match(pixfix)&&p.match(folderKey)){
 		}
 		strScript= $.html($('<head></head>').html(strScript))
 		if(!fs.existsSync(scriptPath)||wirtHtml==true) {
-			fs.writeFileSync(scriptPath, entities.decode(strScript), 'utf8');
+			fs.writeFileSync(scriptPath, beautify(entities.decode(strScript), { indent_size: 4}), 'utf8');
 		}
 		$("head script[src][compress!=false]").remove();
 		var minReltivePath=path.relative(htmlPath,minPath)
 		minReltivePath=minReltivePath.replace(/\\/g,"/");
 		$("head").prepend('\r\n<script  src="'+minReltivePath+'?version='+new Date().getTime()+'" type="text/javascript" charset="utf-8"></script>');
 		var htm= $.html();
-		htm=htm.replace(/\r\n*\s*\r\n/g,'\r\n');
-		fs.writeFileSync(p, entities.decode(htm), 'utf8');
+		htm=htm.replace(/\r?\n*\s*\r?\n/g,'\r\n');
+		fs.writeFileSync(p, beautify(entities.decode(htm), { indent_size: 4 }), 'utf8');
 	}else if(debug==true&&readFromMinHtml==true){
-		var str="\r\n"
+
 		$("head script[src][compress!=false]").remove();
-		for(var i=0;i<$1("head script[src][compress!=false]").length;i++){
-			str+=$1.html($1("head script[src][compress!=false]")[i])+"\r\n"
-		}
-		$("head").prepend(str);
+
+		$("head").prepend($1("head script[src][compress!=false]"));
 		var htm= $.html();
-		htm=htm.replace(/\r\n*\s*\r\n/g,'\r\n');
-		fs.writeFileSync(p, entities.decode(htm), 'utf8');
+		htm=htm.replace(/\r?\n*\s*\r?\n/g,'\r\n');
+		fs.writeFileSync(p, beautify(entities.decode(htm), { indent_size: 4 }), 'utf8');
 	}
 		console.log("SUCCESSED")
-	 
+
 	});
 }
  function hashCode(str){
