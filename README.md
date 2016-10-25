@@ -1,6 +1,8 @@
 # AutoJS
 compress js files with the html file script element src attr
 
+used for JSP projects
+
 
 
 1. run the setup.bat file
