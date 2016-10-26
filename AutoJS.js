@@ -132,7 +132,7 @@ var p = pathroot;
                 var minReltivePath = path.relative(htmlPath, minPath)
             }
             minReltivePath = minReltivePath.replace(/\\/g, "/");
-            $("head").prepend('\r\n<script  src="'+(!!jspCode?jspCode[0]+"/":'/') + minReltivePath + '?version=' + new Date().getTime() + '" type="text/javascript" charset="utf-8"></script>');
+            $("head").prepend('\r\n<script  src="'+(!!jspCode?jspCode[0]+"/":'') + minReltivePath + '?version=' + new Date().getTime() + '" type="text/javascript" charset="utf-8"></script>');
             var htm = $.html();
             htm = beautify(htm, {indent_size: 4, 'preserve_newlines': false})
             htm = html.replace(headMatch, htm)
