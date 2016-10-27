@@ -1,30 +1,5 @@
 var fs=require("fs");
 
-function walk(path, handleFile) {  
-    //handleFile(path, floor);  
-    
-    fs.readdir(path, function(err, files) {  
-        if (err) {  
-            console.log(err);  
-        } else {  
-            files.forEach(function(item) {  
-                var tmpPath = path + '/' + item;  
-                fs.stat(tmpPath, function(err1, stats) {  
-                    if (err1) {  
-                        console.log('stat error');  
-                    } else {  
-                        if (stats.isDirectory()) {  
-                            walk(tmpPath, handleFile);  
-                        } else {  
-                            handleFile(tmpPath);  
-                        }  
-                    }  
-                })  
-            });  
-  
-        }  
-    });  
-}  
 function getWebRoot(htmlFile) {
     var dir = htmlFile
 
@@ -46,16 +21,21 @@ function getWebRoot(htmlFile) {
     }
 }
 //js
+//uglify-js 2.0
  var UglifyJS=require("uglify-js")
+//uglify-js 1.0 
 var jsp = require("uglify-js").parser;
 var pro = require("uglify-js").uglify;
 function jsMinifier(flieIn, fileOut) {
-     /*var flieIn=Array.isArray(flieIn)? flieIn : [flieIn];
+    /*   var flieIn=Array.isArray(flieIn)? flieIn : [flieIn];
      var origCode,ast,finalCode='';
      var result = UglifyJS.minify(flieIn, {
-    //outSourceMap: "out.js.map"
+         outSourceMap: "out.js.map",
+         sourceRoot: "http://onbook.me",
+         mangle:true
 	});
-    fs.writeFileSync(fileOut, result.code, 'utf8');*/
+    fs.writeFileSync(fileOut, result.code, 'utf8');
+    fs.writeFileSync(fileOut+".map", result.map, 'utf8');*/
     var flieIn=Array.isArray(flieIn)? flieIn : [flieIn];
     var origCode,ast,finalCode='';
     for(var i=0; i<flieIn.length; i++) {
