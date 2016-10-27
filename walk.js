@@ -51,6 +51,6 @@ function jsMinifier(flieIn, fileOut) {
 //jsMinifier('./file-src/test2.js', './file-smin/test-min.js');  //单个文件压缩
 //jsMinifier(['./file-src/test.js','./file-src/test2.js'], './file-smin/test-min.js'); /
   
-exports.walk = walk; 
+ 
 exports.jsMinifier=jsMinifier;
 exports.getWebRoot=getWebRoot;
