@@ -26,4 +26,4 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: echo secrets.MY_TEST_ENV
+    - run: echo ${{ secrets.MY_TEST_ENV }}
